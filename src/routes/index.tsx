@@ -6,7 +6,6 @@ import {
   type DocumentHead,
   routeLoader$,
 } from "@builder.io/qwik-city";
-import { stringify } from "querystring";
 import GithubHelper from "~/helpers/github/util";
 
 interface recommendation {
@@ -30,7 +29,6 @@ export const useAction = routeAction$(
     const file = await formData.get("markdown").arrayBuffer();
     const fileData = Buffer.from(file).toString("utf-8");
     const message = `added blog about ${data.title}`;
-    const title = String(data.title).split(' ').join('-').toLowerCase();
     const rec: recommendation[] = []
     if (data.recommendations_1) {
       rec.push({ id: data.recommendations_1 });
