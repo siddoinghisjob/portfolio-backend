@@ -1,3 +1,4 @@
+import { Session } from "@auth/qwik";
 import { component$, Slot } from "@builder.io/qwik";
 import type { RequestHandler } from "@builder.io/qwik-city";
 
@@ -10,6 +11,13 @@ export const onGet: RequestHandler = async ({ cacheControl }) => {
     // Max once every 5 seconds, revalidate on the server to get a fresh version of this page
     maxAge: 5,
   });
+};
+
+export const onRequest: RequestHandler = (event) => {
+  const session: Session | null = event.sharedMap.get("session");
+  if (!session || new Date(session.expires) < new Date()) {
+    throw event.redirect(302, `/auth/signin?callbackUrl=${event.url.pathname}`);
+  }
 };
 
 export default component$(() => {
