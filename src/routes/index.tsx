@@ -49,8 +49,15 @@ export const useAction = routeAction$(
     if (data.tags_3) {
       tags.push(data.tags_3);
     }
+    const cleanString = (str : string) : string => {
+      return str
+        .toLowerCase()                 
+        .replace(/[^a-z\s]/g, '')     
+        .trim()                        
+        .replace(/\s+/g, '-');         
+    }
     const jsonData: metaData = {
-      id: String(data.title).split(' ').join('-').toLowerCase(),
+      id: cleanString(String(data.title)),
       title: data.title,
       author: data.author,
       publishDate: data.publishDate,
