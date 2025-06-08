@@ -66,14 +66,14 @@ export const useAction = routeAction$(
 
       const message = `added blog about ${data.title}`;
       const rec: recommendation[] = [];
-      if (data.recommendations_1) {
+      if (data.recommendations_0 && data.recommendations_0 !== "NA") {
+        rec.push({ id: data.recommendations_0 });
+      }
+      if (data.recommendations_1 && data.recommendations_1 !== "NA") {
         rec.push({ id: data.recommendations_1 });
       }
-      if (data.recommendations_2) {
+      if (data.recommendations_2 && data.recommendations_2 !== "NA") {
         rec.push({ id: data.recommendations_2 });
-      }
-      if (data.recommendations_3) {
-        rec.push({ id: data.recommendations_3 });
       }
       const tags: string[] = [];
       if (data.tags_1) {
@@ -177,22 +177,27 @@ export default component$(() => {
           Recommendations
         </label>
         <div class="grid grid-cols-3 gap-4">
-          {[1, 2, 3].map((num, key) => (
+          {[0, 1, 2].map((num, key) => (
             <select
               key={key}
               name={`recommendations_${num}`}
               class="transform rounded-lg border-0 bg-white/5 p-3 text-white shadow-inner transition-all hover:translate-y-[-2px] focus:ring-2 focus:ring-blue-400 focus:outline-none"
               disabled={action.isRunning}
             >
-              {rec_list.value.message?.map((rec: recommendation) => (
-                <option
-                  key={rec.id}
-                  value={rec.id}
-                  class="bg-slate-800 text-white"
-                >
-                  {rec.id}
-                </option>
-              ))}
+              <option key={0} value="NA" class="bg-slate-800 text-white">
+                None
+              </option>
+              {rec_list.value.message
+                ?.slice(num, num + 1)
+                .map((rec: recommendation) => (
+                  <option
+                    key={rec.id}
+                    value={rec.id}
+                    class="bg-slate-800 text-white"
+                  >
+                    {rec.id}
+                  </option>
+                ))}
             </select>
           ))}
         </div>
