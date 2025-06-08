@@ -45,6 +45,7 @@
     "wrangler": "^3.0.0"
   },
   "dependencies": {
-    "@octokit/rest": "^21.1.1"
+    "@octokit/rest": "^21.1.1",
+    "cloudinary": "^2.6.0"
   }
 }
